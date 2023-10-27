@@ -13,4 +13,6 @@ jobs:
       - name: Build Project
         run: npm run build
       - name: Start the project
+        env:
+          MONGO_URI: ${{ secrets.GITHUB_DB_TOKEN }}
         run: npm run start
