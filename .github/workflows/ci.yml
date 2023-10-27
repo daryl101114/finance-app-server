@@ -12,7 +12,7 @@ jobs:
         run: npm install
       - name: Build Project
         run: npm run build
-      - name: Start the project
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: npm run start
+      # - name: Start the project
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: npm run start
