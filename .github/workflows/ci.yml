@@ -13,6 +13,6 @@ jobs:
       - name: Build Project
         run: npm run build
       - name: Start the project
-        env:
+        with:
           MONGO_URI: ${{ secrets.DB_TOKEN }}
         run: npm run start
