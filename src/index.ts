@@ -29,5 +29,6 @@ app.use(userRouter);
 mongooseConnect(MONGO_URI);
 
 app.listen(PORT, () => {
+  console.log(MONGO_URI);
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
