@@ -1,0 +1,18 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install node packages
+        run: npm install
+      - name: Build Project
+        run: npm run build
+      # - name: Start the project
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: npm run start
