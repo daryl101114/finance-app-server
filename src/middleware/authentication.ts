@@ -11,10 +11,9 @@ class Authentication {
       const authHeader = req.headers["authorization"];
       const token = authHeader && authHeader.split(" ")[1];
 
-      if (token == null) return res.sendStatus(401)
-      
+      if (token == null) return res.sendStatus(401);
     } catch (err) {
-      console.log(er);
+      console.log(err);
     }
   }
 }
