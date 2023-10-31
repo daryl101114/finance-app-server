@@ -6,7 +6,7 @@ import { userRouter } from "./api/route/securityRoutes";
 dotenv.config();
 //Middle Wares
 const app = express();
-const { PORT = 3000, MONGO_URI = "" } = process.env;
+const { PORT = 9000, MONGO_URI = "" } = process.env;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,6 +29,5 @@ app.use(userRouter);
 mongooseConnect(MONGO_URI);
 
 app.listen(PORT, () => {
-  console.log(MONGO_URI);
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });

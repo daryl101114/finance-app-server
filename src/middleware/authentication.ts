@@ -1,5 +1,10 @@
-import jwt from "jsonwebtoken";
+import jwt, { Secret, JwtPayload } from "jsonwebtoken";
 import express, { Request, Response, NextFunction } from "express";
+
+const { SECRET_KEY = "" } = process.env;
+export interface CustomRequest extends Request {
+  token: string | JwtPayload;
+}
 
 class Authentication {
   public static authenticateToken(
@@ -8,12 +13,20 @@ class Authentication {
     next: NextFunction
   ): any {
     try {
-      const authHeader = req.headers["authorization"];
-      const token = authHeader && authHeader.split(" ")[1];
+      const token = req.header("Authorization")?.replace("Bearer ", "");
+      // Return when no token is found
+      if (token == null) throw new Error();
 
-      if (token == null) return res.sendStatus(401);
+      // Verify the token
+      const decoded = jwt.verify(token, SECRET_KEY);
+      (req as CustomRequest).token = decoded;
+
+      next();
     } catch (err) {
       console.log(err);
+      res.status(401).send("Please authenticate");
     }
   }
 }
+
+export { Authentication };

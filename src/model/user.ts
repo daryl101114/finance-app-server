@@ -1,33 +1,31 @@
 import mongoose from "mongoose";
-import { IUser, userModelInterface, userDoc } from "./InterfaceModel/IUser";
+import bcrypt from "bcrypt";
 
-const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  username: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
+interface I_UserDocument extends mongoose.Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+}
+
+const UserSchema: mongoose.Schema<I_UserDocument> = new mongoose.Schema({
+  firstName: { type: String },
+  lastName: { type: String },
+  email: { type: String, unique: true },
+  username: { type: String, unique: true },
+  password: { type: String },
 });
 
-userSchema.statics.build = (attr: IUser) => {
-  return new User(attr);
-};
+//Hashing Password
+const saltRounds = 8;
+UserSchema.pre("save", async function (next) {
+  const user = this;
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, saltRounds);
+  }
+  next();
+});
 
-const User = mongoose.model<userDoc, userModelInterface>("User", userSchema);
-
-export { User };
+const UserModel = mongoose.model<I_UserDocument>("User", UserSchema);
+export { UserModel, I_UserDocument };
