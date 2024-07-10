@@ -26,9 +26,8 @@ app.get("/", (req: Request, res: Response) => {
 app.use(userRouter);
 
 //Connect DB
-mongooseConnect(MONGO_URI);
 
+mongooseConnect(MONGO_URI);
 app.listen(PORT, () => {
-  console.log(MONGO_URI);
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
