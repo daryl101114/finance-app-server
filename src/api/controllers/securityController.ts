@@ -13,7 +13,7 @@ class SecurityController {
     //Handle Create User Here
     try {
       const { firstName, lastName, email, username, password } = req.body;
-
+console.log(req.body)
       const user = User.build({
         firstName,
         lastName,
@@ -21,7 +21,14 @@ class SecurityController {
         username,
         password,
       });
-      await user.save();
+      try{
+        await user.save();
+      }
+      catch(err:any){
+        console.log("Failed to register user", err)
+        throw new Error(err)
+      }
+      
       return { message: "User created successfuly" };
     } catch (err) {
       console.error(err);
