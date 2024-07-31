@@ -16,8 +16,13 @@ interface IUser {
   password: string;
 }
 
+interface ILoginUser{
+  username: string;
+  password: string;
+}
+
 interface userModelInterface extends mongoose.Model<userDoc> {
   build(attr: IUser): userDoc;
 }
 
-export { IUser, userModelInterface, userDoc };
+export { IUser, ILoginUser, userModelInterface, userDoc };

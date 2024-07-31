@@ -9,7 +9,7 @@ const mongooseConnect = (MONGO_URI: string): void => {
     })
     .catch((error: Object) => {
       console.log(
-        "failed to connect to the database. terminating the application..."
+        "failed to connect to the database. terminating the application...",
       );
       console.error(error);
       process.exit(1);
