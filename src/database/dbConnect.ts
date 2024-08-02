@@ -1,18 +1,19 @@
 import dotenv from "dotenv";
-const mongoose = require("mongoose");
-
-const mongooseConnect = (MONGO_URI: string): void => {
-  mongoose
-    .connect(MONGO_URI)
-    .then(() => {
-      console.log("connected to database successfully...");
-    })
-    .catch((error: Object) => {
-      console.log(
-        "failed to connect to the database. terminating the application...",
-      );
-      console.error(error);
-      process.exit(1);
-    });
+import mongoose from "mongoose";
+/**
+ *
+ * @param MONGO_URI
+ */
+const mongooseConnect = async (MONGO_URI: string): Promise<void> => {
+  try {
+    await mongoose.connect(MONGO_URI);
+    console.log("connected to database successfully...");
+  } catch (error: any) {
+    console.log(
+      "failed to connect to the database. terminating the application...",
+      error,
+    );
+    process.exit(1);
+  }
 };
 export { mongooseConnect };

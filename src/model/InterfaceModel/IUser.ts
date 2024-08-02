@@ -16,7 +16,7 @@ interface IUser {
   password: string;
 }
 
-interface ILoginUser{
+interface ILoginUser {
   username: string;
   password: string;
 }

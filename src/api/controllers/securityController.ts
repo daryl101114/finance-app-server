@@ -7,29 +7,27 @@ import dotenv from "dotenv";
 import { IUser } from "../../model/InterfaceModel/IUser";
 dotenv.config();
 
-const {SECRET_KEY=""} = process.env
+const { SECRET_KEY = "" } = process.env;
 interface SecurityResponse {
   message: string;
   statusCode: number;
 }
 interface ILoginResponse {
-  message:string
-  token?: string
+  message: string;
+  token?: string;
 }
 
 // interface ISecurityController extends SecurityController
 
 class SecurityController {
-
-  public static async getAllUsers(
-  ): Promise<IUser[]> {
+  public static async getAllUsers(): Promise<IUser[]> {
     // const { id} = req.body;
 
-    const user:IUser[] = await User.find();
-    
+    const user: IUser[] = await User.find();
+
     // Check if user is found
-    console.log(user)
-    return user
+    console.log(user);
+    return user;
   }
 
   public static async createUser(req: Request): Promise<SecurityResponse> {
@@ -38,7 +36,7 @@ class SecurityController {
       const { firstName, lastName, email, username, password } = req.body;
 
       const hashedPassword = await encryptText(password);
-      console.log(hashedPassword)
+      console.log(hashedPassword);
       if (!hashedPassword) throw new Error("Failed to hash password");
       const user = User.build({
         firstName,
@@ -55,24 +53,23 @@ class SecurityController {
     }
   }
 
-  public static async loginUser(
-    req: Request
-  ): Promise<ILoginResponse> {
+  public static async loginUser(req: Request): Promise<ILoginResponse> {
     const { username, password } = req.body;
-console.log("hit")
+    console.log("hit");
     const user = await User.findOne({ username });
     // Check if user is found
-    if (!user) return {message: "Username not found",token:undefined}
+    if (!user) return { message: "Username not found", token: undefined };
 
     //Check if username and password equal to each other
     const isPasswordValid = await compareText(password, user.password);
-    if(!isPasswordValid) return {message: "Password does not match",token:undefined}
+    if (!isPasswordValid)
+      return { message: "Password does not match", token: undefined };
 
     //Sign Token
-    const token = sign({ _id:user._id,  name: username }, SECRET_KEY, {
-      expiresIn: '2 days',
+    const token = sign({ _id: user._id, name: username }, SECRET_KEY, {
+      expiresIn: "2 days",
     });
-    return {message: "User Authenticated!",token:token}
+    return { message: "User Authenticated!", token: token };
   }
 }
 

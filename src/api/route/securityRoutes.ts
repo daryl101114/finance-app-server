@@ -3,13 +3,12 @@ import { SecurityController } from "../controllers/securityController";
 import { verifyToken } from "../utils/utils";
 const router = express.Router();
 
-
 //GET
 router.get("/api/users", verifyToken, async (req: Request, res: Response) => {
-  try{
+  try {
     const result = await SecurityController.getAllUsers();
-    return res.status(200).send(result)
-  }catch(err){
+    return res.status(200).send(result);
+  } catch (err) {
     return res.status(500).send("Failed to retrieve users");
   }
 });
@@ -24,13 +23,13 @@ router.post("/api/registerUser", async (req: Request, res: Response) => {
 });
 
 router.post("/api/loginUser", async (req: Request, res: Response) => {
-  try{
-
+  try {
     const result = await SecurityController.loginUser(req);
-    console.log(result)
-    if(!result.token) throw new Error(result.message)
-    return res.status(200).send(result)
-  }catch(err){
+    console.log(result);
+    if (!result.token) throw new Error(result.message);
+    return res.status(200).send(result);
+  } catch (err) {
+    console.log(err);
     return res.status(500).send("Failed to authenticate user");
   }
 });
